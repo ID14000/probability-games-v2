@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Probability Games v2 – Hub</title>
+  <meta property="og:title" content="Probability Games v2" />
+  
+  <link rel="icon" type="image/svg+xml" href="assets/icon.svg" />
+  <link rel="stylesheet" href="../src/styles/base.css" />
+  <link rel="stylesheet" href="../src/styles/theme.css" />
+  <link rel="stylesheet" href="../src/styles/settings.css" />
+
+  <style>
+    /* Custom style for the Pro card */
+    .pg-card--pro {
+      background: linear-gradient(135deg, #1d4ed8, #4f46e5); 
+      border-color: #3b82f6;
+      box-shadow: 0 28px 60px rgba(79, 70, 229, 0.45);
+      transition: transform 0.2s ease, box-shadow 0.2s ease,
+        border-color 0.2s ease, background 0.2s ease;
+    }
+    .pg-card--pro:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 40px 100px rgba(79, 70, 229, 0.75);
+      background: linear-gradient(135deg, #2563eb, #6366f1);
+      border-color: #60a5fa;
+    }
+
+    /* Crash Card Style */
+    .pg-card--crash {
+      border-color: #22c55e;
+      background: radial-gradient(circle at top left, #064e3b, #020617);
+    }
+    .pg-card--crash:hover {
+      border-color: #4ade80;
+      box-shadow: 0 0 40px rgba(34, 197, 94, 0.3);
+    }
+
+    /* Market Card Style */
+    .pg-card--market {
+      border-color: #eab308;
+      background: radial-gradient(circle at top left, #422006, #020617);
+    }
+    .pg-card--market:hover {
+      border-color: #facc15;
+      box-shadow: 0 0 40px rgba(250, 204, 21, 0.3);
+    }
+
+    /* Leveling UI Styles */
+    .hub-level-container {
+      margin-top: 1.25rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .hub-level-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.4rem;
+    }
+    .hub-level-badge {
+      background: #4f46e5;
+      font-size: 0.75rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .hub-level-title {
+      font-size: 0.85rem;
+      color: #e5e7eb;
+    }
+    .hub-level-bar {
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 0.3rem;
+    }
+    .hub-level-fill {
+      height: 100%;
+      background: #4ade80; /* Green progress */
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+    .hub-level-text {
+      font-size: 0.7rem;
+      color: #9ca3af;
+      text-align: right;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="pg-header">
+    <h1>Probability Games v2</h1>
+    <p class="pg-subtitle">
+      Dice • Mines • Plinko • Blackjack • Coin Flip • Crash • Market
+    </p>
+
+    <nav class="pg-nav">
+      <a class="pg-nav-link" href="shop.html" style="background:#4f46e5; border-color:#6366f1; color:white;">🛒 Shop</a>
+      <button class="pg-settings-toggle" id="pg-achievements-toggle">🏆 Achievements</button>
+      <button class="pg-settings-toggle" id="pg-settings-toggle">⚙️ Settings</button>
+      <a class="pg-nav-link" href="../docs/index.html">Docs</a>
+    </nav>
+  </header>
+
+  <main class="pg-main">
+    <section class="hub-row">
+      <div class="hub-wallet">
+        <div class="hub-wallet-label">Global balance</div>
+        <div class="hub-wallet-row">
+          <span id="hub-balance">0</span>
+          <span class="hub-wallet-currency">coins</span>
+          <button id="hub-reset" class="hub-wallet-reset">Reset</button>
+        </div>
+
+        <div class="hub-level-container">
+          <div class="hub-level-header">
+            <span class="hub-level-badge" id="hub-level-badge">Lvl 1</span>
+            <span class="hub-level-title" id="hub-level-title">Rookie</span>
+          </div>
+          <div class="hub-level-bar">
+            <div class="hub-level-fill" id="hub-level-fill"></div>
+          </div>
+          <div class="hub-level-text" id="hub-level-text">0 / 1,000 XP</div>
+        </div>
+      </div>
+
+      <div class="hub-stats-card">
+        <div class="hub-stats-header">
+          <span>Stats on this device</span>
+          <button id="hub-stats-reset" class="hub-stats-reset">Reset stats</button>
+        </div>
+
+        <div class="hub-stats-grid">
+          <div class="hub-stat">
+            <div class="hub-stat-label">Total wagered</div>
+            <div class="hub-stat-value" id="hub-stats-bets">0</div>
+          </div>
+          <div class="hub-stat">
+            <div class="hub-stat-label">Net profit</div>
+            <div class="hub-stat-value" id="hub-stats-profit">0</div>
+          </div>
+          <div class="hub-stat">
+            <div class="hub-stat-label">Total games</div>
+            <div class="hub-stat-value" id="hub-stats-games">0</div>
+          </div>
+          <div class="hub-stat">
+            <div class="hub-stat-label">Win rate</div>
+            <div class="hub-stat-value" id="hub-stats-winrate">0%</div>
+          </div>
+          <div class="hub-stat hub-stat-wide">
+            <div class="hub-stat-label">Most played game</div>
+            <div class="hub-stat-value" id="hub-stats-topgame">–</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Game cards -->
+    <section class="pg-cards">
+      <!-- NEW: Market Card -->
+      <a class="pg-card pg-card--market" href="games/market.html">
+        <h2>📈 The Market</h2>
+        <p>Trade simulated stocks. Use leverage to amplify profits (or losses).</p>
+      </a>
+
+      <a class="pg-card pg-card--crash" href="games/crash.html">
+        <h2>🚀 Crash Game</h2>
+        <p>Exponential growth. Eject before it crashes. High risk, high reward.</p>
+      </a>
+
+      <a class="pg-card pg-card--pro" href="../docs/index.html">
+        <h2>✨ Go Pro! Unlock Advanced Tools</h2>
+        <p>Run massive Monte Carlo simulations, analyze distribution graphs, and see real-time risk.</p>
+      </a>
+
+      <a class="pg-card" href="games/dice.html">
+        <h2>🎲 Dice Game</h2>
+        <p>Choose your risk and roll a number between 1 and 100.</p>
+      </a>
+
+      <a class="pg-card" href="games/mines.html">
+        <h2>💣 Mines Game</h2>
+        <p>Open safe cells, avoid mines, and decide when to cash out.</p>
+      </a>
+
+      <a class="pg-card" href="games/plinko.html">
+        <h2>🧷 Plinko Game</h2>
+        <p>Drop balls through pegs and watch probability in action.</p>
+      </a>
+
+      <a class="pg-card" href="games/blackjack.html">
+        <h2>🃏 Blackjack</h2>
+        <p>Play classic 21 with a shared wallet and see the house edge.</p>
+      </a>
+
+      <a class="pg-card" href="games/coinflip.html">
+        <h2>🪙 Coin Flip</h2>
+        <p>Pick heads or tails and feel pure 50/50 variance.</p>
+      </a>
+    </section>
+  </main>
+
+  <footer class="pg-footer">
+    <p>Built as a professional remake of my original Probability Games project.</p>
+  </footer>
+
+  <!-- Settings panel -->
+  <div class="pg-settings-backdrop" id="pg-settings-backdrop">
+    <div class="pg-settings-panel">
+      <div class="pg-settings-header">
+        <h2>Settings</h2>
+        <button id="pg-settings-close" class="pg-settings-close">×</button>
+      </div>
+      <div class="pg-settings-body">
+        <!-- Theme -->
+        <section class="pg-settings-section">
+          <h3>Theme</h3>
+          <div class="pg-settings-options">
+            <label class="pg-settings-option"><input type="radio" name="pg-theme" value="default" /> Default</label>
+            <label class="pg-settings-option"><input type="radio" name="pg-theme" value="dim" /> Dim</label>
+            <label class="pg-settings-option"><input type="radio" name="pg-theme" value="high-contrast" /> High Contrast</label>
+          </div>
+        </section>
+        <section class="pg-settings-section pg-settings-section--footer">
+          <button id="pg-settings-reset" class="pg-settings-reset-btn">Reset settings</button>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- Achievements Modal -->
+  <div class="pg-settings-backdrop" id="pg-achievements-backdrop">
+    <div class="pg-settings-panel">
+      <div class="pg-settings-header">
+        <h2>🏆 Achievements</h2>
+        <button id="pg-achievements-close" class="pg-settings-close">×</button>
+      </div>
+      <div class="pg-settings-body">
+        <div id="pg-achievements-list" class="pg-achievements-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="../src/core/settings.js"></script>
+  <script type="module" src="../src/core/hub.js"></script>
+</body>
+</html>

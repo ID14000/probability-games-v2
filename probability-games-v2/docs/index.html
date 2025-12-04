@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Probability Games v2 – Project Docs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Re-use your main styles -->
+  <link rel="stylesheet" href="../src/styles/base.css" />
+  <link rel="stylesheet" href="../src/styles/theme.css" />
+  <style>
+    body {
+      background: radial-gradient(circle at top, #020617, #020617);
+      color: #e5e7eb;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "SF Pro Display", sans-serif;
+    }
+
+    .docs-shell {
+      max-width: 960px;
+      margin: 3.5rem auto;
+      padding: 0 1.5rem 3rem;
+    }
+
+    .docs-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.85);
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: 2.4rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .docs-subtitle {
+      max-width: 640px;
+      font-size: 0.98rem;
+      color: #9ca3af;
+      margin-bottom: 1.75rem;
+    }
+
+    .docs-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      font-size: 0.8rem;
+      color: #9ca3af;
+      margin-bottom: 2.5rem;
+    }
+
+    .docs-meta span {
+      padding: 0.25rem 0.65rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(55, 65, 81, 0.8);
+    }
+
+    .docs-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.1fr);
+      gap: 2rem;
+    }
+
+    @media (max-width: 900px) {
+      .docs-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .docs-card {
+      border-radius: 1.2rem;
+      border: 1px solid rgba(30, 64, 175, 0.5);
+      background: radial-gradient(circle at top left, #020617, #020617);
+      padding: 1.5rem 1.4rem;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.65);
+    }
+
+    .docs-card h2 {
+      font-size: 1.15rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .docs-card p {
+      font-size: 0.92rem;
+      color: #d1d5db;
+      line-height: 1.6;
+    }
+
+    .docs-list {
+      margin: 0.6rem 0 0.4rem;
+      padding-left: 1.1rem;
+      font-size: 0.9rem;
+      color: #d1d5db;
+    }
+
+    .docs-taglist {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.75rem;
+    }
+
+    .docs-tag {
+      font-size: 0.78rem;
+      padding: 0.18rem 0.55rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.95);
+    }
+
+    .docs-section {
+      margin-top: 2.5rem;
+    }
+
+    .docs-section h3 {
+      font-size: 1.05rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .docs-section p,
+    .docs-section li {
+      font-size: 0.9rem;
+      color: #d1d5db;
+      line-height: 1.6;
+    }
+
+    .docs-section ul {
+      padding-left: 1.1rem;
+      margin: 0.4rem 0 0.2rem;
+    }
+
+    .docs-link-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      margin-top: 1.1rem;
+    }
+
+    .docs-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.45rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      text-decoration: none;
+      border: 1px solid rgba(59, 130, 246, 0.7);
+      background: radial-gradient(circle at top left, #1d4ed8, #4f46e5);
+      color: #f9fafb;
+      box-shadow: 0 16px 30px rgba(37, 99, 235, 0.55);
+    }
+
+    .docs-link--ghost {
+      border-color: rgba(75, 85, 99, 0.8);
+      background: rgba(15, 23, 42, 0.95);
+      color: #e5e7eb;
+      box-shadow: none;
+    }
+
+    .docs-footer {
+      margin-top: 3rem;
+      font-size: 0.82rem;
+      color: #9ca3af;
+    }
+  </style>
+</head>
+<body>
+  <div class="docs-shell">
+    <div class="docs-badge">
+      <span>🎲🎯 Probability Games v2</span>
+      <span>Dice · Mines · Plinko</span>
+    </div>
+
+    <h1>Project documentation</h1>
+    <p class="docs-subtitle">
+      Probability Games is a small suite of casino-style mini games built to
+      demonstrate probability, risk, and expected value in an interactive way.
+      v2 is a refactored, production-style remake of the original project I
+      built at 18.
+    </p>
+
+    <div class="docs-meta">
+      <span>Frontend: HTML · CSS · JavaScript</span>
+      <span>Physics: Matter.js (Plinko)</span>
+      <span>Focus: UX + clean architecture</span>
+      <span>Educational &amp; portfolio project</span>
+    </div>
+
+    <div class="docs-grid">
+      <section class="docs-card">
+        <h2>Overview</h2>
+        <p>
+          The app is a single-page style hub with three independent games
+          sharing the same visual identity:
+        </p>
+        <ul class="docs-list">
+          <li><strong>Dice Game</strong> – pick a risk level and roll a number from 1–100.</li>
+          <li><strong>Mines Game</strong> – open safe cells, avoid mines, and cash out in time.</li>
+          <li><strong>Plinko Game</strong> – drop balls through pegs into multiplier bins.</li>
+        </ul>
+        <p>
+          The goal is not gambling, but to show how changing risk and game
+          parameters changes your distribution of outcomes and long-run expected
+          value.
+        </p>
+        <div class="docs-taglist">
+          <span class="docs-tag">No frameworks</span>
+          <span class="docs-tag">Modular JS</span>
+          <span class="docs-tag">Reusable styles</span>
+          <span class="docs-tag">Probability intuition</span>
+        </div>
+      </section>
+
+      <section class="docs-card">
+        <h2>Quick links</h2>
+        <p>Useful entry points into the project:</p>
+        <div class="docs-link-row">
+          <a href="../public/index.html" class="docs-link">
+            Open the games hub
+          </a>
+          <a href="https://github.com/ID14000/probability-games-v2" class="docs-link docs-link--ghost">
+            GitHub repository
+          </a>
+        </div>
+        <div class="docs-section" style="margin-top:1.5rem;">
+          <h3>Intended audience</h3>
+          <ul>
+            <li>Hiring managers &amp; recruiters – see clean UI + JS architecture.</li>
+            <li>Teachers – use the games to talk about probability and risk.</li>
+            <li>Investors / partners – as a base for an educational or gamified product.</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+
+    <section class="docs-section">
+      <h3>Game design &amp; math model</h3>
+      <p><strong>Dice Game.</strong> You choose a risk percentage (chance to lose). The game
+        computes a threshold and a fair-ish payout multiplier. Higher risk means:</p>
+      <ul>
+        <li>Lower probability of winning.</li>
+        <li>Higher potential multiplier if you do win.</li>
+      </ul>
+
+      <p><strong>Mines Game.</strong> This is analogous to classic “Mines”/“Minesweeper” betting games.
+        You choose how many mines are hidden on the board. Each safe click increases the
+        multiplier, and hitting a mine loses the bet. The board is random and each cell’s
+        chance of being a mine depends on how many are left.</p>
+
+      <p><strong>Plinko Game.</strong> Plinko uses a math-driven model:
+        a bin is chosen using a probability distribution derived from the number of rows,
+        and each bin has a risk-dependent multiplier. The physics engine (Matter.js) is
+        used purely for animation; it is steered so that the ball visually lands in the
+        mathematically chosen bin.</p>
+    </section>
+
+    <section class="docs-section">
+      <h3>Architecture &amp; structure</h3>
+      <p>The project is structured as a small, framework-free frontend app:</p>
+      <ul>
+        <li><code>public/</code> – static HTML entry points (hub + game pages).</li>
+        <li><code>src/styles/</code> – shared base and theme styles.</li>
+        <li><code>src/games/</code> – one folder per game with its own JS logic.</li>
+        <li><code>src/core/</code> – shared utilities (balances, formatting, etc.).</li>
+        <li><code>docs/</code> – this documentation page.</li>
+      </ul>
+      <p>
+        Everything runs as static files; no backend is required. A simple static host
+        like GitHub Pages or Netlify is enough to deploy.
+      </p>
+    </section>
+
+    <section class="docs-section">
+      <h3>Ideas for future work</h3>
+      <ul>
+        <li>Shared “wallet” across all games with a reset option.</li>
+        <li>Stats screen showing distribution of outcomes by game and session.</li>
+        <li>Toggle between “fun mode” and strict probability / EV visualisations.</li>
+        <li>Rewrite in React or Svelte for comparison with the vanilla JS version.</li>
+      </ul>
+    </section>
+
+    <p class="docs-footer">
+      Built as a professional remake of my original Probability Games project
+      created at age 18. This version focuses on clean code, UI polish, and
+      explaining the underlying probability.
+    </p>
+  </div>
+</body>
+</html>

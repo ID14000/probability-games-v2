@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Dice Game – Probability Games v2</title>
+  <meta
+    name="description"
+    content="Adjust your risk, roll a number from 1–100, and see how probability feels in the Dice Game."
+  />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Dice Game – Probability Games v2" />
+  <meta
+    property="og:description"
+    content="Choose a risk level, place a bet and explore how chance plays out over time."
+  />
+  <meta property="og:image" content="../assets/icon.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" type="image/svg+xml" href="../assets/icon.svg" />
+  <link rel="apple-touch-icon" href="../assets/icon.svg" />
+
+  <link rel="stylesheet" href="../../src/styles/base.css" />
+  <link rel="stylesheet" href="../../src/styles/theme.css" />
+  <link rel="stylesheet" href="../../src/games/dice/dice.css" />
+</head>
+<body>
+  <header class="pg-header">
+    <h1>🎲 Dice Game</h1>
+    <p class="pg-subtitle">
+      Choose your risk, roll a number from 1–100, and see how probability feels.
+    </p>
+    <a class="pg-link" href="../index.html">← Back to hub</a>
+
+    <nav class="pg-nav">
+      <a class="pg-nav-link" href="../index.html">Games hub</a>
+      <a class="pg-nav-link" href="../../docs/index.html">Project docs</a>
+    </nav>
+  </header>
+
+  <main class="pg-main pg-main-narrow">
+    <div class="game-info-row">
+      <button id="dice-info-open" class="game-info-btn">
+        How this game works
+      </button>
+    </div>
+
+    <section class="dice-layout">
+      <!-- Left panel: controls -->
+      <div class="dice-panel">
+        <div class="dice-balance-box" id="dice-balance-box">
+          <span>Balance</span>
+          <strong id="dice-balance">1,000</strong>
+          <span class="dice-currency">coins</span>
+        </div>
+
+        <div class="dice-field">
+          <label for="dice-bet">Bet per roll</label>
+          <div class="dice-input-row">
+            <input
+              id="dice-bet"
+              type="number"
+              min="1"
+              step="1"
+              value="10"
+            />
+            <button id="dice-bet-min" class="dice-btn-secondary">Min</button>
+            <button id="dice-all-in" class="dice-btn-secondary">All in</button>
+          </div>
+        </div>
+
+        <div class="dice-field">
+          <label for="dice-risk">Risk (chance to lose)</label>
+          <div class="dice-slider-wrapper">
+            <input
+              id="dice-risk"
+              type="range"
+              min="1"
+              max="99"
+              value="50"
+            />
+            <div class="dice-slider-value" id="dice-risk-value">50%</div>
+          </div>
+          <p class="dice-meta">
+            Win probability: <span id="dice-win-prob">50%</span> •
+            Multiplier: <span id="dice-multiplier">2.00x</span> •
+            EV per bet: <span id="dice-ev">-7.0%</span>
+          </p>
+        </div>
+
+        <button id="dice-roll" class="dice-btn-primary">Roll</button>
+
+        <p class="dice-result" id="dice-result">
+          Set your bet and risk, then roll.
+        </p>
+
+        <!-- START PRO FEATURE: MONTE CARLO SIMULATOR -->
+        <div class="dice-pro-feature" id="dice-pro-panel">
+          <h3>Monte Carlo Simulator (PRO)</h3>
+          <p class="dice-meta">
+            Run thousands of high-speed rolls to find the true Expected Value (EV) and win distribution for your chosen risk.
+          </p>
+          <div class="dice-input-row">
+            <button id="sim-1k" class="dice-btn-secondary dice-sim-btn" data-count="1000" disabled>1,000 Rolls</button>
+            <button id="sim-10k" class="dice-btn-secondary dice-sim-btn" data-count="10000" disabled>10,000 Rolls</button>
+            <button id="sim-100k" class="dice-btn-secondary dice-sim-btn" data-count="100000" disabled>100,000 Rolls</button>
+          </div>
+          <p id="dice-sim-status" class="dice-result" style="margin-top:0.75rem;">
+            Click a button to start a simulation.
+          </p>
+          <div id="dice-sim-results" class="dice-sim-results">
+            <!-- Results will be injected here -->
+          </div>
+        </div>
+        <!-- END PRO FEATURE -->
+
+      </div>
+
+      <!-- Right panel: display + history -->
+      <div class="dice-panel dice-right-panel">
+        <div class="dice-display-wrapper">
+          <div class="dice-display" id="dice-display">–</div>
+        </div>
+
+        <div class="dice-history">
+          <div class="dice-history-header">
+            <h2>History</h2>
+            <span id="dice-history-summary">
+              Rolls: 0 • Win rate: 0.0% • Streak: –
+            </span>
+          </div>
+          <ul id="dice-history-list"></ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- All-in dialog -->
+  <div class="dice-dialog-backdrop" id="dice-dialog">
+    <div class="dice-dialog">
+      <h2>Go all in?</h2>
+      <p>
+        You are about to bet your entire balance. This means you could lose
+        everything in a single roll.
+      </p>
+      <div class="dice-dialog-actions">
+        <button id="dice-confirm-all-in" class="dice-btn-primary">Yes</button>
+        <button id="dice-cancel-all-in" class="dice-btn-secondary">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Info panel -->
+  <div class="game-info-panel" id="dice-info-panel">
+    <div class="game-info-panel-inner">
+      <button class="game-info-close" id="dice-info-close">×</button>
+      <h2>How the Dice Game works</h2>
+      <p>
+        You choose a <strong>risk level</strong> between 1% and 99%. This is the
+        percentage chance to <strong>lose</strong> your bet on each roll.
+      </p>
+
+      <h3>Mechanics</h3>
+      <ul>
+        <li>You set a bet amount.</li>
+        <li>You choose a risk (% chance to lose).</li>
+        <li>We roll a number from 1 to 100.</li>
+        <li>If the roll ≤ risk → you lose the bet.</li>
+        <li>If the roll &gt; risk → you win, with a multiplier shown below the slider.</li>
+      </ul>
+
+      <h3>Why the multiplier changes</h3>
+      <p>
+        Under the hood we start from the <em>fair</em> multiplier
+        <code>1 / win probability</code> and then apply a small house edge that
+        grows with risk (roughly 2–12%). That means higher risk still gives
+        bigger multipliers, but the expected value of a bet is always slightly
+        negative.
+      </p>
+
+      <h3>What to look at</h3>
+      <ul>
+        <li>Play with very low and very high risks and watch the history.</li>
+        <li>Compare your short-term results to the long-term win rate.</li>
+        <li>
+          Think about <strong>expected value</strong>: higher risk gives bigger
+          multipliers but wins less often.
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <script type="module" src="../../src/core/settings.js"></script>
+  <script type="module" src="../../src/games/dice/dice.js"></script>
+</body>
+</html>

@@ -1,0 +1,176 @@
+/* Layout */
+.crash-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: 2rem;
+}
+
+@media (max-width: 900px) {
+  .crash-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.crash-panel {
+  background: radial-gradient(circle at top left, #1b2545, #090b16);
+  border-radius: 1.25rem;
+  border: 1px solid #262b4a;
+  padding: 1.75rem;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55);
+}
+
+.crash-display-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Balance & Inputs */
+.crash-balance-box {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  padding: 0.75rem 1rem;
+  border-radius: 999px;
+  background: rgba(5, 7, 18, 0.85);
+  border: 1px solid #343b64;
+  margin-bottom: 1.25rem;
+}
+
+.crash-balance-box strong { font-size: 1.25rem; }
+.crash-currency { opacity: 0.7; font-size: 0.85rem; }
+
+.crash-field { margin-bottom: 1.25rem; }
+.crash-field label {
+  display: block;
+  font-size: 0.9rem;
+  margin-bottom: 0.4rem;
+  opacity: 0.85;
+}
+
+.crash-input-row { display: flex; gap: 0.5rem; align-items: center; }
+.crash-input-row input {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid #343b64;
+  background: rgba(5, 7, 18, 0.9);
+  color: #f5f5f5;
+}
+.crash-suffix { font-size: 0.9rem; opacity: 0.6; padding-right: 0.5rem; }
+
+.crash-meta {
+  font-size: 0.8rem;
+  opacity: 0.7;
+  margin-top: 0.35rem;
+}
+
+/* Actions */
+.crash-btn-primary, .crash-btn-secondary, .crash-btn-action {
+  border-radius: 999px;
+  border: 1px solid transparent;
+  padding: 0.55rem 1.1rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+.crash-btn-primary {
+  width: 100%;
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  color: white;
+}
+.crash-btn-primary:hover { box-shadow: 0 0 15px rgba(99, 102, 241, 0.5); }
+
+.crash-btn-secondary {
+  background: rgba(15, 23, 42, 0.95);
+  border-color: #374151;
+  color: #e5e7eb;
+}
+
+.crash-btn-action {
+  width: 100%;
+  background: #22c55e; /* Green for eject */
+  color: #050712;
+  font-weight: 800;
+  display: none; /* Hidden by default */
+}
+.crash-btn-action:hover {
+  background: #4ade80;
+  box-shadow: 0 0 20px rgba(74, 222, 128, 0.6);
+}
+
+.crash-status { margin-top: 1rem; font-size: 0.9rem; opacity: 0.9; }
+
+/* Canvas Container */
+.crash-graph-container {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  background: #020617;
+  border-radius: 1rem;
+  border: 1px solid #1f2937;
+  overflow: hidden;
+}
+
+#crash-canvas { width: 100%; height: 100%; display: block; }
+
+.crash-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+#crash-current-mult {
+  font-size: 3.5rem;
+  font-weight: 800;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+}
+
+/* History */
+.crash-history-row {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.crash-badge {
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  background: #1f2937;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.crash-badge--high { color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.3); }
+.crash-badge--low { color: #f97373; border: 1px solid rgba(249, 115, 115, 0.3); }
+
+/* Pro Risk Meter */
+.crash-risk-meter {
+  height: 8px;
+  background: #1f2937;
+  border-radius: 999px;
+  margin-top: 0.5rem;
+  overflow: hidden;
+}
+.crash-risk-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(to right, #22c55e, #eab308, #ef4444);
+  transition: width 0.1s linear;
+}
+
+/* Balance flash animations */
+.crash-balance-box--win {
+  background: rgba(22, 163, 74, 0.15);
+  border-color: rgba(34, 197, 94, 0.7);
+}
+.crash-balance-box--loss {
+  background: rgba(220, 38, 38, 0.18);
+  border-color: rgba(248, 113, 113, 0.9);
+}

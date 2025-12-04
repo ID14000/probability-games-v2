@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Plinko Game – Probability Games v2</title>
+  <meta
+    name="description"
+    content="Drop balls through pegs, hit multipliers at the bottom and see how variance behaves in the Plinko game."
+  />
+
+  <link rel="icon" type="image/svg+xml" href="../assets/icon.svg" />
+  <link rel="apple-touch-icon" href="../assets/icon.svg" />
+
+  <link rel="stylesheet" href="../../src/styles/base.css" />
+  <link rel="stylesheet" href="../../src/styles/theme.css" />
+  <link rel="stylesheet" href="../../src/games/plinko/plinko.css" />
+</head>
+<body>
+  <header class="pg-header">
+    <h1>🧷 Plinko Game</h1>
+    <p class="pg-subtitle">
+      Drop balls through pegs and see which multiplier you hit.
+    </p>
+    <a class="pg-link" href="../index.html">← Back to hub</a>
+
+    <nav class="pg-nav">
+      <a class="pg-nav-link" href="../index.html">Games hub</a>
+      <a class="pg-nav-link" href="../../docs/index.html">Project docs</a>
+    </nav>
+  </header>
+
+  <main class="pg-main pg-main-narrow">
+    <div class="game-info-row">
+      <button id="plinko-info-open" class="game-info-btn">
+        How this game works
+      </button>
+    </div>
+
+    <section class="plinko-layout">
+      <!-- Left column: controls + history -->
+      <div class="plinko-panel">
+        <div class="plinko-balance-box" id="plinko-balance-box">
+          <span>Balance</span>
+          <strong id="plinko-balance">1,000</strong>
+          <span class="plinko-currency">coins</span>
+        </div>
+
+        <div class="plinko-field">
+          <label for="plinko-bet">Bet per ball</label>
+          <div class="plinko-input-row">
+            <input
+              id="plinko-bet"
+              type="number"
+              min="1"
+              step="1"
+              value="10"
+            />
+            <button id="plinko-bet-min" class="plinko-btn-secondary">
+              Min
+            </button>
+            <button id="plinko-all-in" class="plinko-btn-secondary">
+              All in
+            </button>
+          </div>
+        </div>
+
+        <div class="plinko-field">
+          <label>Risk level</label>
+          <div class="plinko-risk-toggle">
+            <button class="plinko-risk-btn" data-risk="low">Low</button>
+            <button
+              class="plinko-risk-btn plinko-risk-btn--active"
+              data-risk="medium"
+            >
+              Medium
+            </button>
+            <button class="plinko-risk-btn" data-risk="high">High</button>
+          </div>
+        </div>
+
+        <div class="plinko-field">
+          <label for="plinko-rows">Rows</label>
+          <select id="plinko-rows">
+            <option value="8">8 rows</option>
+            <option value="12" selected>12 rows</option>
+            <option value="16">16 rows</option>
+          </select>
+          <p class="plinko-meta">
+            More rows = more volatility, especially on higher risk.
+          </p>
+        </div>
+
+        <div class="plinko-field">
+          <label>Auto drop (visual)</label>
+          <div class="plinko-input-row">
+            <button
+              class="plinko-btn-secondary plinko-auto-btn"
+              data-count="10"
+            >
+              10
+            </button>
+            <button
+              class="plinko-btn-secondary plinko-auto-btn"
+              data-count="50"
+            >
+              50
+            </button>
+            <button
+              class="plinko-btn-secondary plinko-auto-btn"
+              data-count="100"
+            >
+              100
+            </button>
+          </div>
+          <div class="plinko-input-row">
+            <button
+              id="plinko-auto-stop"
+              class="plinko-btn-secondary plinko-auto-stop"
+              disabled
+            >
+              Stop auto
+            </button>
+          </div>
+        </div>
+
+        <button id="plinko-drop" class="plinko-btn-primary">
+          Drop ball
+        </button>
+
+        <p id="plinko-message" class="plinko-message">
+          Choose your bet, risk and rows, then drop balls.
+        </p>
+
+        <!-- START PRO FEATURE: HIGH SPEED SIMULATOR -->
+        <div class="plinko-pro-feature" id="plinko-pro-panel" style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #262b4a; opacity: 0.6;">
+          <h3 style="font-size: 0.95rem; color: #a5b4fc; margin-bottom: 0.5rem;">High-Speed Simulation (PRO)</h3>
+          <p class="plinko-meta">
+            Bypass physics to simulate thousands of drops instantly and analyze the distribution.
+          </p>
+          <div class="plinko-input-row">
+            <button class="plinko-btn-secondary plinko-sim-btn" data-count="1000" disabled>1k</button>
+            <button class="plinko-btn-secondary plinko-sim-btn" data-count="10000" disabled>10k</button>
+            <button class="plinko-btn-secondary plinko-sim-btn" data-count="100000" disabled>100k</button>
+          </div>
+          <div id="plinko-sim-results" style="margin-top:0.8rem; font-size:0.85rem; line-height:1.5; color:#d1d5db;">
+            <!-- Results injected here -->
+          </div>
+        </div>
+        <!-- END PRO FEATURE -->
+
+        <div class="plinko-history">
+          <div class="plinko-history-header">
+            <h2>History</h2>
+            <span id="plinko-history-summary">
+              Drops: 0 • Win rate: 0.0%
+            </span>
+          </div>
+          <ul id="plinko-history-list"></ul>
+        </div>
+      </div>
+
+      <!-- Right column: board -->
+      <div
+        class="plinko-panel plinko-board-panel plinko-board-panel--medium"
+        id="plinko-board-panel"
+      >
+        <div class="plinko-board-header">
+          <div>
+            <div class="plinko-board-label">Current setup</div>
+            <div class="plinko-board-setup" id="plinko-board-setup">
+              Medium risk • 12 rows
+            </div>
+          </div>
+        </div>
+
+        <div class="plinko-board">
+          <div class="plinko-board-inner">
+            <canvas
+              id="plinko-canvas"
+              width="520"
+              height="620"
+              aria-label="Plinko board"
+            ></canvas>
+            <div class="plinko-multipliers" id="plinko-multipliers"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- All in dialog -->
+  <div class="plinko-dialog-backdrop" id="plinko-dialog">
+    <div class="plinko-dialog">
+      <h2>Go all in?</h2>
+      <p>
+        You are about to wager your entire balance on a single Plinko ball. A
+        low multiplier can wipe you out, but a big edge hit will skyrocket your
+        coins.
+      </p>
+      <div class="plinko-dialog-actions">
+        <button id="plinko-confirm-all-in" class="plinko-btn-primary">
+          Yes
+        </button>
+        <button id="plinko-cancel-all-in" class="plinko-btn-secondary">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Info panel -->
+  <div class="game-info-panel" id="plinko-info-panel">
+    <div class="game-info-panel-inner">
+      <button
+        type="button"
+        id="plinko-info-close"
+        class="game-info-close"
+        aria-label="Close"
+      >
+        ×
+      </button>
+      <h2>How the Plinko game works</h2>
+      <p>
+        Each ball starts at the top and randomly bounces left or right as it
+        hits pegs. The bottom row is divided into bins, each with a multiplier.
+      </p>
+      <p>
+        The <strong>risk level</strong> controls how extreme those multipliers
+        are. Low risk keeps things clustered near 1x, while high risk moves more
+        value into the edges so big hits and big losses are both more likely.
+      </p>
+      <p>
+        The <strong>rows</strong> control how many decisions each ball makes.
+        More rows means more variance and a wider spread of possible outcomes.
+      </p>
+      <p>
+        Auto drop uses your current bet, risk and rows to fire a stream of
+        balls. It's an easy way to feel how volatility behaves over 10, 50 or
+        100 trials instead of just one.
+      </p>
+    </div>
+  </div>
+
+  <!-- Physics engine: used only for animation -->
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  ></script>
+
+  <!-- Game logic -->
+  <script type="module" src="../../src/core/settings.js"></script>
+  <script type="module" src="../../src/games/plinko/plinko.js"></script>
+</body>
+</html>

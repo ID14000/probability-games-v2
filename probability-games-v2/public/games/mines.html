@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Mines Game – Probability Games v2</title>
+  <meta
+    name="description"
+    content="Choose how many mines are hidden on the board, open safe cells and decide when to cash out."
+  />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Mines Game – Probability Games v2" />
+  <meta
+    property="og:description"
+    content="Balance risk and reward by picking the number of mines and the moment you cash out."
+  />
+  <meta property="og:image" content="../assets/icon.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" type="image/svg+xml" href="../assets/icon.svg" />
+  <link rel="apple-touch-icon" href="../assets/icon.svg" />
+
+  <link rel="stylesheet" href="../../src/styles/base.css" />
+  <link rel="stylesheet" href="../../src/styles/theme.css" />
+  <link rel="stylesheet" href="../../src/games/mines/mines.css" />
+</head>
+<body>
+  <header class="pg-header">
+    <h1>💣 Mines Game</h1>
+    <p class="pg-subtitle">
+      Open safe cells, avoid mines, and decide when to cash out.
+    </p>
+    <a class="pg-link" href="../index.html">← Back to hub</a>
+
+    <nav class="pg-nav">
+      <a class="pg-nav-link" href="../index.html">Games hub</a>
+      <a class="pg-nav-link" href="../../docs/index.html">Project docs</a>
+    </nav>
+  </header>
+
+  <main class="pg-main pg-main-narrow">
+    <div class="game-info-row">
+      <button id="mines-info-open" class="game-info-btn">How this game works</button>
+    </div>
+
+    <section class="mines-layout">
+      <div class="mines-panel">
+        <div class="mines-balance-box" id="mines-balance-box">
+          <span>Balance</span>
+          <strong id="mines-balance">1,000</strong>
+          <span class="mines-currency">coins</span>
+        </div>
+
+        <div class="mines-field">
+          <label for="mines-bet">Bet</label>
+          <div class="mines-input-row">
+            <input
+              id="mines-bet"
+              type="number"
+              min="1"
+              step="1"
+              value="10"
+            />
+            <button id="mines-bet-min" class="mines-btn-secondary">Min</button>
+            <button id="mines-all-in" class="mines-btn-secondary">All in</button>
+          </div>
+        </div>
+
+        <div class="mines-field">
+          <label for="mines-count">Mines on the board</label>
+          <input
+            id="mines-count"
+            type="range"
+            min="1"
+            max="24"
+            value="3"
+          />
+          <div class="mines-meta">
+            <span>Mines: <strong id="mines-count-value">3</strong> / 25</span>
+          </div>
+        </div>
+
+        <div class="mines-field">
+          <div class="mines-meta">
+            <span>Safe cells left: <strong id="mines-safe-left">22</strong></span>
+          </div>
+          <div class="mines-meta">
+            <span>Multiplier: <strong id="mines-multiplier">1.00x</strong></span>
+          </div>
+        </div>
+
+        <div class="mines-actions">
+          <button id="mines-start" class="mines-btn-primary">Start round</button>
+          <button id="mines-cashout" class="mines-btn-secondary" disabled>
+            Cash out
+          </button>
+        </div>
+
+        <p class="mines-message" id="mines-message">
+          Choose your bet and number of mines, then start the round.
+        </p>
+
+        <!-- START PRO FEATURE: PROBABILITY ASSISTANT -->
+        <div class="mines-pro-feature" id="mines-pro-panel" style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #262b4a; opacity: 0.6;">
+          <h3 style="font-size: 0.95rem; color: #a5b4fc; margin-bottom: 0.5rem;">Probability Assistant (PRO)</h3>
+          <p class="mines-meta" id="mines-prob-text">
+            Upgrade to Pro to see the exact odds of your next move.
+          </p>
+        </div>
+        <!-- END PRO FEATURE -->
+
+      </div>
+
+      <div class="mines-panel mines-board-panel">
+        <div id="mines-board" class="mines-board"></div>
+      </div>
+    </section>
+  </main>
+
+  <div class="mines-dialog-backdrop" id="mines-dialog">
+    <div class="mines-dialog">
+      <h2>Go all in?</h2>
+      <p>
+        You are about to wager your entire balance on this round.
+        If you hit a mine, you lose all of it.
+      </p>
+      <div class="mines-dialog-actions">
+        <button id="mines-confirm-all-in" class="mines-btn-primary">Yes</button>
+        <button id="mines-cancel-all-in" class="mines-btn-secondary">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="game-info-panel" id="mines-info-panel">
+    <div class="game-info-panel-inner">
+      <button class="game-info-close" id="mines-info-close">×</button>
+      <h2>How the Mines Game works</h2>
+      <p>
+        You choose how many <strong>mines</strong> are hidden on a 5 × 5 grid.
+        More mines means higher potential multipliers, but more danger.
+      </p>
+
+      <h3>Mechanics</h3>
+      <ul>
+        <li>You set a bet and choose the number of mines.</li>
+        <li>We randomly place that many mines on the 25 cells.</li>
+        <li>Each time you click a safe cell, your multiplier increases.</li>
+        <li>You can <strong>cash out</strong> at any time to lock in winnings.</li>
+        <li>If you hit a mine, you lose the bet and the round ends.</li>
+      </ul>
+
+      <h3>Risk vs. reward</h3>
+      <ul>
+        <li>Few mines → safer, but multipliers grow slowly.</li>
+        <li>Many mines → very volatile, but multipliers grow fast.</li>
+        <li>
+          Early cashouts lock in small profit; waiting longer increases both
+          reward and risk.
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <script type="module" src="../../src/core/settings.js"></script>
+  <script type="module" src="../../src/games/mines/mines.js"></script>
+</body>
+</html>

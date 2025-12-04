@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Market Trader – Probability Games v2</title>
+  
+  <link rel="icon" type="image/svg+xml" href="../assets/icon.svg" />
+  <link rel="stylesheet" href="../../src/styles/base.css" />
+  <link rel="stylesheet" href="../../src/styles/theme.css" />
+  <link rel="stylesheet" href="../../src/games/market/market.css" />
+</head>
+<body>
+  <header class="pg-header">
+    <h1>📈 The Market</h1>
+    <p class="pg-subtitle">Trade the volatility. Long, Short, and Leverage.</p>
+    <a class="pg-link" href="../index.html">← Back to hub</a>
+    <nav class="pg-nav">
+      <a class="pg-nav-link" href="../index.html">Games hub</a>
+      <a class="pg-nav-link" href="../../docs/index.html">Project docs</a>
+    </nav>
+  </header>
+
+  <main class="pg-main pg-main-narrow">
+    <div class="game-info-row">
+      <button id="market-info-open" class="game-info-btn">How trading works</button>
+    </div>
+
+    <section class="market-layout">
+      <!-- Left: Order Form -->
+      <div class="market-panel">
+        <div class="market-balance-box">
+          <span>Balance</span>
+          <strong id="market-balance">1,000</strong>
+          <span class="market-currency">coins</span>
+        </div>
+
+        <!-- Position Status (Hidden when no trade) -->
+        <div id="market-position-panel" class="market-position-panel" style="display:none;">
+          <div class="market-pos-header">
+            <span id="market-pos-type" class="market-badge">LONG 10x</span>
+            <span id="market-pnl" class="market-pnl">0.00</span>
+          </div>
+          <div class="market-pos-stats">
+            <div>Entry: <span id="market-entry">0.00</span></div>
+            <div>Liq. Price: <span id="market-liq">0.00</span></div>
+          </div>
+          <button id="market-close" class="market-btn-close">CLOSE POSITION</button>
+        </div>
+
+        <!-- Order Controls (Visible when no trade) -->
+        <div id="market-controls">
+          <div class="market-field">
+            <label>Margin (Bet Size)</label>
+            <div class="market-input-row">
+              <input id="market-margin" type="number" min="1" value="100">
+              <button id="market-margin-min" class="market-btn-sec">Min</button>
+              <button id="market-margin-all" class="market-btn-sec">All</button>
+            </div>
+          </div>
+
+          <div class="market-field">
+            <label>Leverage: <span id="market-lev-val">1x</span></label>
+            <input id="market-leverage" type="range" min="1" max="50" value="1" class="market-slider">
+            <p class="market-meta">Higher leverage = Higher risk of liquidation.</p>
+          </div>
+
+          <div class="market-actions">
+            <button id="market-long" class="market-btn-long">BUY / LONG 📈</button>
+            <button id="market-short" class="market-btn-short">SELL / SHORT 📉</button>
+          </div>
+        </div>
+
+        <p id="market-message" class="market-message">Market is open. Place a trade.</p>
+
+        <!-- PRO Feature -->
+        <div class="market-pro-panel" id="market-pro-panel">
+          <h3>Technical Indicators (PRO)</h3>
+          <p class="market-meta" id="market-pro-text">Upgrade to enable SMA trend lines.</p>
+          <div class="market-toggles">
+            <label><input type="checkbox" id="market-sma-fast" disabled> SMA 10 (Fast)</label>
+            <label><input type="checkbox" id="market-sma-slow" disabled> SMA 50 (Slow)</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Chart -->
+      <div class="market-panel market-chart-panel">
+        <div class="market-chart-header">
+          <div class="market-pair">SIM / USD</div>
+          <div class="market-price" id="market-current-price">100.00</div>
+        </div>
+        <div class="market-canvas-wrapper">
+          <canvas id="market-canvas" width="600" height="400"></canvas>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Info Modal -->
+  <div class="game-info-panel" id="market-info-panel">
+    <div class="game-info-panel-inner">
+      <button class="game-info-close" id="market-info-close">×</button>
+      <h2>Trading Mechanics</h2>
+      <p>This simulator models stock price movement using <strong>Geometric Brownian Motion</strong>.</p>
+      <h3>Long vs Short</h3>
+      <ul>
+        <li><strong>Long (Buy):</strong> You profit if the price goes UP.</li>
+        <li><strong>Short (Sell):</strong> You profit if the price goes DOWN.</li>
+      </ul>
+      <h3>Leverage & Liquidation</h3>
+      <p>Leverage multiplies your buying power. With <strong>10x leverage</strong>, a 1% price move equals a 10% profit (or loss) for you.</p>
+      <p><strong>Liquidation:</strong> If the price moves against you enough to wipe out your margin, the broker closes your position instantly (you lose the bet).</p>
+    </div>
+  </div>
+
+  <script type="module" src="../../src/core/settings.js"></script>
+  <script type="module" src="../../src/games/market/market.js"></script>
+</body>
+</html>

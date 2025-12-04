@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Crash Game – Probability Games v2</title>
+  <meta
+    name="description"
+    content="Watch the multiplier rise and cash out before it crashes. Learn about exponential growth and risk."
+  />
+
+  <link rel="icon" type="image/svg+xml" href="../assets/icon.svg" />
+  <link rel="stylesheet" href="../../src/styles/base.css" />
+  <link rel="stylesheet" href="../../src/styles/theme.css" />
+  <link rel="stylesheet" href="../../src/games/crash/crash.css" />
+</head>
+<body>
+  <header class="pg-header">
+    <h1>🚀 Crash</h1>
+    <p class="pg-subtitle">
+      Ride the curve. Eject before the crash.
+    </p>
+    <a class="pg-link" href="../index.html">← Back to hub</a>
+
+    <nav class="pg-nav">
+      <a class="pg-nav-link" href="../index.html">Games hub</a>
+      <a class="pg-nav-link" href="../../docs/index.html">Project docs</a>
+    </nav>
+  </header>
+
+  <main class="pg-main pg-main-narrow">
+    <div class="game-info-row">
+      <button id="crash-info-open" class="game-info-btn">
+        How this game works
+      </button>
+    </div>
+
+    <section class="crash-layout">
+      <!-- Left: Controls -->
+      <div class="crash-panel">
+        <div class="crash-balance-box" id="crash-balance-box">
+          <span>Balance</span>
+          <strong id="crash-balance">1,000</strong>
+          <span class="crash-currency">coins</span>
+        </div>
+
+        <div class="crash-field">
+          <label for="crash-bet">Bet amount</label>
+          <div class="crash-input-row">
+            <input
+              id="crash-bet"
+              type="number"
+              min="1"
+              step="1"
+              value="10"
+            />
+            <button id="crash-bet-min" class="crash-btn-secondary">Min</button>
+            <button id="crash-all-in" class="crash-btn-secondary">All in</button>
+          </div>
+        </div>
+
+        <div class="crash-field">
+          <label for="crash-auto">Auto Eject (Optional)</label>
+          <div class="crash-input-row">
+            <input
+              id="crash-auto"
+              type="number"
+              min="1.01"
+              step="0.1"
+              placeholder="e.g. 2.00"
+            />
+            <span class="crash-suffix">x</span>
+          </div>
+          <p class="crash-meta">
+            Automatically cash out if the multiplier reaches this value.
+          </p>
+        </div>
+
+        <div class="crash-actions">
+          <button id="crash-play" class="crash-btn-primary">Place Bet</button>
+          <button id="crash-eject" class="crash-btn-action" disabled>EJECT</button>
+        </div>
+
+        <p class="crash-status" id="crash-status">
+          Place your bet to start the round.
+        </p>
+
+        <!-- START PRO FEATURE: RISK GRAPH -->
+        <div class="crash-pro-feature" id="crash-pro-panel" style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #262b4a; opacity: 0.6;">
+          <h3 style="font-size: 0.95rem; color: #a5b4fc; margin-bottom: 0.5rem;">Live Risk Analysis (PRO)</h3>
+          <p class="crash-meta" id="crash-risk-text">
+            Upgrade to Pro to see the real-time crash probability.
+          </p>
+          <div class="crash-risk-meter">
+            <div class="crash-risk-bar" id="crash-risk-bar"></div>
+          </div>
+        </div>
+        <!-- END PRO FEATURE -->
+
+      </div>
+
+      <!-- Right: Graph & History -->
+      <div class="crash-panel crash-display-panel">
+        <div class="crash-graph-container">
+          <canvas id="crash-canvas" width="600" height="400"></canvas>
+          <div class="crash-overlay" id="crash-overlay">
+            <span id="crash-current-mult">1.00x</span>
+            <span id="crash-crashed-text" style="display:none; font-size:1.5rem; color:#f97373;">CRASHED @ 1.00x</span>
+          </div>
+        </div>
+
+        <div class="crash-history">
+          <div class="crash-history-header">
+            <h2>Recent Crashes</h2>
+          </div>
+          <div class="crash-history-row" id="crash-history-list">
+            <!-- Items injected here -->
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="game-info-panel" id="crash-info-panel">
+    <div class="game-info-panel-inner">
+      <button class="game-info-close" id="crash-info-close">×</button>
+      <h2>How Crash works</h2>
+      <p>
+        A multiplier starts at 1.00x and increases exponentially. It can "crash" at any moment.
+      </p>
+      <h3>Mechanics</h3>
+      <ul>
+        <li>Place a bet to join the round.</li>
+        <li>Watch the multiplier rise.</li>
+        <li>Click <strong>EJECT</strong> to cash out your bet × current multiplier.</li>
+        <li>If the game crashes before you eject, you lose your bet.</li>
+      </ul>
+      <h3>The Math</h3>
+      <p>
+        The game uses a real-time probability curve. The chance of the game crashing <em>at this exact moment</em> actually remains somewhat constant, but the cumulative probability of survival drops rapidly as the multiplier goes high.
+      </p>
+      <p>
+        <strong>House Edge:</strong> The game instantly crashes at 1.00x about 1% of the time, creating a built-in edge.
+      </p>
+    </div>
+  </div>
+
+  <script type="module" src="../../src/core/settings.js"></script>
+  <script type="module" src="../../src/games/crash/crash.js"></script>
+</body>
+</html>

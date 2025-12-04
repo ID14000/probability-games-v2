@@ -1,0 +1,383 @@
+/* Layout */
+.plinko-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+  gap: 2rem;
+}
+
+@media (max-width: 900px) {
+  .plinko-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Panels */
+
+.plinko-panel {
+  background: radial-gradient(circle at top left, #1b2545, #090b16);
+  border-radius: 1.25rem;
+  border: 1px solid #262b4a;
+  padding: 1.75rem;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55);
+}
+
+.plinko-board-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Board / canvas */
+
+.plinko-board-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.plinko-board-label {
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+.plinko-board-setup {
+  font-size: 0.9rem;
+  margin-top: 0.15rem;
+}
+
+.plinko-board {
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 1.25rem;
+  background: radial-gradient(circle at top, #020617, #020617);
+  border: 1px solid rgba(55, 65, 81, 0.9);
+  display: flex;
+  justify-content: center;
+}
+
+.plinko-board-inner {
+  width: min(520px, 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.5rem;
+}
+
+#plinko-canvas {
+  width: 100%;
+  display: block;
+  border-radius: 1rem;
+  background: #020617;
+}
+
+/* Multipliers row (bins) */
+
+.plinko-multipliers {
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  gap: 0;
+}
+
+.plinko-mult-chip {
+  text-align: center;
+  font-size: 0.78rem;
+  padding: 0.3rem 0.2rem;
+  border-radius: 0.7rem;
+  border: 1px solid rgba(55, 65, 81, 0.9);
+  background: rgba(15, 23, 42, 0.95);
+  opacity: 0.98;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.plinko-mult-chip--big {
+  font-weight: 600;
+}
+
+/* Balance & fields */
+
+.plinko-balance-box {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  padding: 0.75rem 1rem;
+  border-radius: 999px;
+  background: rgba(5, 7, 18, 0.85);
+  border: 1px solid #343b64;
+  margin-bottom: 1.25rem;
+}
+
+.plinko-balance-box strong {
+  font-size: 1.25rem;
+}
+
+.plinko-currency {
+  opacity: 0.7;
+  font-size: 0.85rem;
+}
+
+.plinko-field {
+  margin-bottom: 1.25rem;
+}
+
+.plinko-field label {
+  display: block;
+  font-size: 0.9rem;
+  margin-bottom: 0.4rem;
+  opacity: 0.85;
+}
+
+.plinko-input-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.plinko-input-row input[type="number"],
+.plinko-field select {
+  flex: 1;
+  padding: 0.55rem 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid #343b64;
+  background: rgba(5, 7, 18, 0.9);
+  color: #f5f5f5;
+}
+
+.plinko-input-row input[type="number"]:focus,
+.plinko-field select:focus {
+  outline: none;
+  border-color: #5865f2;
+}
+
+.plinko-meta {
+  font-size: 0.85rem;
+  margin-top: 0.45rem;
+  opacity: 0.85;
+}
+
+/* Buttons */
+
+.plinko-btn-primary,
+.plinko-btn-secondary {
+  border-radius: 999px;
+  border: 1px solid transparent;
+  padding: 0.55rem 1.1rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: transform 0.08s ease, box-shadow 0.1s ease, background 0.1s ease,
+    border-color 0.1s ease, opacity 0.1s ease;
+}
+
+.plinko-btn-primary {
+  width: 100%;
+  margin-top: 0.5rem;
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  border-color: #4f46e5;
+  color: #f9fafb;
+}
+
+.plinko-btn-primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 26px rgba(88, 101, 242, 0.55);
+}
+
+.plinko-btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.plinko-btn-secondary {
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid #374151;
+  color: #e5e7eb;
+}
+
+.plinko-btn-secondary:hover:not(:disabled) {
+  background: rgba(30, 64, 175, 0.4);
+  border-color: #4b5563;
+}
+
+.plinko-btn-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.plinko-auto-stop {
+  border-color: rgba(248, 113, 113, 0.8);
+  color: rgba(248, 113, 113, 0.95);
+}
+
+.plinko-auto-stop:hover:not(:disabled) {
+  background: rgba(248, 113, 113, 0.18);
+  border-color: rgba(248, 113, 113, 1);
+}
+
+/* Risk toggle */
+
+.plinko-risk-toggle {
+  display: inline-flex;
+  padding: 0.15rem;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid #1f2937;
+  gap: 0.25rem;
+}
+
+.plinko-risk-btn {
+  border-radius: 999px;
+  border: 1px solid #374151;
+  background: rgba(15, 23, 42, 0.95);
+  font-size: 0.85rem;
+  padding: 0.35rem 0.85rem;
+  color: #e5e7eb;
+  cursor: pointer;
+  transition: background 0.1s ease, border-color 0.1s ease, transform 0.08s ease;
+}
+
+.plinko-risk-btn:hover {
+  background: rgba(37, 99, 235, 0.4);
+  border-color: #4b5563;
+}
+
+.plinko-risk-btn--active {
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  border-color: #4f46e5;
+}
+
+/* Messages */
+
+.plinko-message {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.plinko-message--good {
+  color: #4ade80;
+}
+
+.plinko-message--bad {
+  color: #f97373;
+}
+
+/* History */
+
+.plinko-history {
+  margin-top: 1.25rem;
+}
+
+.plinko-history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.75rem;
+}
+
+.plinko-history-header h2 {
+  font-size: 1rem;
+}
+
+#plinko-history-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 260px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 0.45rem;
+}
+
+.plinko-history-item {
+  padding: 0.45rem 0.7rem;
+  border-radius: 0.75rem;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid #1f2937;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  gap: 0.75rem;
+}
+
+.plinko-history-item span {
+  white-space: nowrap;
+}
+
+.plinko-history-item--win {
+  border-color: rgba(74, 222, 128, 0.55);
+}
+
+.plinko-history-item--loss {
+  border-color: rgba(248, 113, 113, 0.55);
+}
+
+/* Balance flash */
+
+.plinko-balance-box--win {
+  background: rgba(22, 163, 74, 0.15);
+  border-color: rgba(34, 197, 94, 0.7);
+}
+
+.plinko-balance-box--loss {
+  background: rgba(220, 38, 38, 0.18);
+  border-color: rgba(248, 113, 113, 0.9);
+}
+
+/* Risk-specific board glow */
+
+.plinko-board-panel--low .plinko-board {
+  border-color: rgba(34, 197, 94, 0.35);
+}
+
+.plinko-board-panel--medium .plinko-board {
+  border-color: rgba(96, 165, 250, 0.4);
+}
+
+.plinko-board-panel--high .plinko-board {
+  border-color: rgba(248, 113, 113, 0.6);
+  box-shadow: 0 0 24px rgba(248, 113, 113, 0.18);
+}
+
+/* Dialog */
+
+.plinko-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.8);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 40;
+}
+
+.plinko-dialog-backdrop--open {
+  display: flex;
+}
+
+.plinko-dialog {
+  background: #020617;
+  border-radius: 1rem;
+  border: 1px solid #374151;
+  padding: 1.5rem;
+  max-width: 360px;
+  width: 90%;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
+}
+
+.plinko-dialog h2 {
+  margin-bottom: 0.5rem;
+}
+
+.plinko-dialog p {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.plinko-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1.3rem;
+}
